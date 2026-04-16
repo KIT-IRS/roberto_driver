@@ -1,0 +1,9 @@
+<library path="irs_softrobot_hardware_interface">
+  <class name="irs_softrobot_hardware_interface/IRSSoftrobotHardwareInterface"
+         type="irs_softrobot_hardware_interface::IRSSoftrobotHardwareInterface"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ROS2 Control hardware interface for the IRS softrobot.
+    </description>
+  </class>
+</library>

@@ -1,0 +1,98 @@
+#ifndef IRS_SOFTROBOT_HARDWARE_INTERFACE_HPP_
+#define IRS_SOFTROBOT_HARDWARE_INTERFACE_HPP_
+
+#include "tendon.hpp"
+#include <hardware_interface/handle.hpp>
+#include <hardware_interface/hardware_info.hpp>
+#include <hardware_interface/system_interface.hpp>
+#include <hardware_interface/types/hardware_interface_return_values.hpp>
+#include <hardware_interface/types/hardware_interface_type_values.hpp>
+#include <rclcpp/logging.hpp>
+#include <rclcpp/macros.hpp>
+#include <rclcpp/qos.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/utilities.hpp>
+#include <rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp>
+#include <rclcpp_lifecycle/state.hpp>
+#include <sensor_msgs/msg/joint_state.hpp>
+#include <std_msgs/msg/float64_multi_array.hpp>
+#include <string>
+
+namespace irs_softrobot_hardware_interface {
+
+struct State {
+  double kappa;
+  double phi;
+  double l = 1.0;
+};
+
+struct Command {
+  double kappa;
+  double phi;
+  double l = 1.0;
+};
+
+struct CommandState {
+  std::string name;
+  State state;
+  Command command;
+};
+
+class IRSSoftrobotHardwareInterface
+    : public hardware_interface::SystemInterface {
+
+public:
+  RCLCPP_SHARED_PTR_DEFINITIONS(IRSSoftrobotHardwareInterface)
+
+  IRSSoftrobotHardwareInterface()
+      : logger_(rclcpp::get_logger("irs_softrobot_hardware_interface")) {};
+
+  hardware_interface::CallbackReturn
+  on_init(const hardware_interface::HardwareInfo &info) override;
+
+  hardware_interface::CallbackReturn
+  on_configure(const rclcpp_lifecycle::State &previous_state) override;
+
+  hardware_interface::CallbackReturn
+  on_activate(const rclcpp_lifecycle::State &previous_state) override;
+
+  hardware_interface::CallbackReturn
+  on_deactivate(const rclcpp_lifecycle::State &previous_state) override;
+
+  hardware_interface::CallbackReturn
+  on_cleanup(const rclcpp_lifecycle::State &previous_state) override;
+
+  std::vector<hardware_interface::StateInterface>
+  export_state_interfaces() override;
+
+  std::vector<hardware_interface::CommandInterface>
+  export_command_interfaces() override;
+
+  hardware_interface::return_type read(const rclcpp::Time &time,
+                                       const rclcpp::Duration &period) override;
+
+  hardware_interface::return_type
+  write(const rclcpp::Time &time, const rclcpp::Duration &period) override;
+
+protected:
+  inline rclcpp::Logger get_logger() const { return logger_; };
+
+private:
+  void subscriber_callback(std_msgs::msg::Float64MultiArray msg);
+
+  rclcpp::Node::SharedPtr node_;
+  rclcpp::Logger logger_;
+
+  std::vector<CommandState> command_state_;
+
+  rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr
+      uros_publisher_;
+  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr
+      uros_subscription_;
+
+  std::vector<double> last_joint_state_ = {1.0, 1.0, 1.0};
+};
+
+} // namespace irs_softrobot_hardware_interface
+
+#endif
