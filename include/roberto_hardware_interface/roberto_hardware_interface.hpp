@@ -1,5 +1,5 @@
-#ifndef IRS_SOFTROBOT_HARDWARE_INTERFACE_HPP_
-#define IRS_SOFTROBOT_HARDWARE_INTERFACE_HPP_
+#ifndef ROBERTO_HARDWARE_INTERFACE_HPP_
+#define ROBERTO_HARDWARE_INTERFACE_HPP_
 
 #include "tendon.hpp"
 #include <hardware_interface/handle.hpp>
@@ -18,7 +18,7 @@
 #include <std_msgs/msg/float64_multi_array.hpp>
 #include <string>
 
-namespace irs_softrobot_hardware_interface {
+namespace roberto_hardware_interface {
 
 struct State {
   double kappa;
@@ -38,14 +38,13 @@ struct CommandState {
   Command command;
 };
 
-class IRSSoftrobotHardwareInterface
-    : public hardware_interface::SystemInterface {
+class RobertoHardwareInterface : public hardware_interface::SystemInterface {
 
 public:
-  RCLCPP_SHARED_PTR_DEFINITIONS(IRSSoftrobotHardwareInterface)
+  RCLCPP_SHARED_PTR_DEFINITIONS(RobertoHardwareInterface)
 
-  IRSSoftrobotHardwareInterface()
-      : logger_(rclcpp::get_logger("irs_softrobot_hardware_interface")) {};
+  RobertoHardwareInterface()
+      : logger_(rclcpp::get_logger("roberto_hardware_interface")) {};
 
   hardware_interface::CallbackReturn
   on_init(const hardware_interface::HardwareInfo &info) override;
@@ -93,6 +92,6 @@ private:
   std::vector<double> last_joint_state_ = {1.0, 1.0, 1.0};
 };
 
-} // namespace irs_softrobot_hardware_interface
+} // namespace roberto_hardware_interface
 
 #endif

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(irs_softrobot_hardware_interface)
+project(roberto_hardware_interface)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -18,17 +18,17 @@ find_package(rclcpp_lifecycle REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 
-add_library(irs_softrobot_hardware_interface SHARED
+add_library(roberto_hardware_interface SHARED
   src/tendon.cpp
-  src/irs_softrobot_hardware_interface.cpp
+  src/roberto_hardware_interface.cpp
 )
 
-target_include_directories(irs_softrobot_hardware_interface PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/irs_softrobot_hardware_interface>
-  $<INSTALL_INTERFACE:include/irs_softrobot_hardware_interface>
+target_include_directories(roberto_hardware_interface PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/roberto_hardware_interface>
+  $<INSTALL_INTERFACE:include/roberto_hardware_interface>
 )
 
-ament_target_dependencies(irs_softrobot_hardware_interface
+ament_target_dependencies(roberto_hardware_interface
   hardware_interface
   pluginlib
   rclcpp
@@ -38,12 +38,12 @@ ament_target_dependencies(irs_softrobot_hardware_interface
 )
 
 # Export hardware plugins
-pluginlib_export_plugin_description_file(hardware_interface irs_softrobot_hardware_interface.xml)
+pluginlib_export_plugin_description_file(hardware_interface roberto_hardware_interface.xml)
 
 install(DIRECTORY include/
   DESTINATION include/${PROJECT_NAME})
 
-install(TARGETS irs_softrobot_hardware_interface
+install(TARGETS roberto_hardware_interface
     DESTINATION lib/${PROJECT_NAME}
 )
 

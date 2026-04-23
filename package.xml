@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>irs_softrobot_hardware_interface</name>
+  <name>roberto_hardware_interface</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="uxvhg@student.kit.edu">root</maintainer>

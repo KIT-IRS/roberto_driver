@@ -1,0 +1,9 @@
+<library path="roberto_hardware_interface">
+  <class name="roberto_hardware_interface/RobertoHardwareInterface"
+    type="roberto_hardware_interface::RobertoHardwareInterface"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ROS2 Control hardware interface for the IRS softrobot roberto.
+    </description>
+  </class>
+</library>

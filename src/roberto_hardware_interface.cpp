@@ -1,11 +1,11 @@
-#include "irs_softrobot_hardware_interface.hpp"
+#include "roberto_hardware_interface.hpp"
 
-namespace irs_softrobot_hardware_interface {
+namespace roberto_hardware_interface {
 
-// IRSSoftrobotHardwareInterface::IRSSoftrobotHardwareInterface()
+// RobertoHardwareInterface::RobertoHardwareInterface()
 //     : hardware_interface::SystemInterface() {};
 
-hardware_interface::CallbackReturn IRSSoftrobotHardwareInterface::on_init(
+hardware_interface::CallbackReturn RobertoHardwareInterface::on_init(
     const hardware_interface::HardwareInfo &info) {
   logger_ = rclcpp::get_logger(info.name);
   RCLCPP_DEBUG(get_logger(), "Got %ld joints", info.joints.size());
@@ -69,35 +69,35 @@ hardware_interface::CallbackReturn IRSSoftrobotHardwareInterface::on_init(
     uros_subscription_ =
         node_->create_subscription<std_msgs::msg::Float64MultiArray>(
             subscription_topic, qos_best_effort,
-            std::bind(&IRSSoftrobotHardwareInterface::subscriber_callback, this,
+            std::bind(&RobertoHardwareInterface::subscriber_callback, this,
                       _1));
   }
   return hardware_interface::CallbackReturn::SUCCESS;
 };
 
-hardware_interface::CallbackReturn IRSSoftrobotHardwareInterface::on_configure(
+hardware_interface::CallbackReturn RobertoHardwareInterface::on_configure(
     [[maybe_unused]] const rclcpp_lifecycle::State &previous_state) {
   // Actual configuration
   return hardware_interface::CallbackReturn::SUCCESS;
 };
 
-hardware_interface::CallbackReturn IRSSoftrobotHardwareInterface::on_activate(
+hardware_interface::CallbackReturn RobertoHardwareInterface::on_activate(
     [[maybe_unused]] const rclcpp_lifecycle::State &previous_state) {
   return hardware_interface::CallbackReturn::SUCCESS;
 };
 
-hardware_interface::CallbackReturn IRSSoftrobotHardwareInterface::on_deactivate(
+hardware_interface::CallbackReturn RobertoHardwareInterface::on_deactivate(
     [[maybe_unused]] const rclcpp_lifecycle::State &previous_state) {
   return hardware_interface::CallbackReturn::SUCCESS;
 };
 
-hardware_interface::CallbackReturn IRSSoftrobotHardwareInterface::on_cleanup(
+hardware_interface::CallbackReturn RobertoHardwareInterface::on_cleanup(
     [[maybe_unused]] const rclcpp_lifecycle::State &previous_state) {
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
 std::vector<hardware_interface::StateInterface>
-IRSSoftrobotHardwareInterface::export_state_interfaces() {
+RobertoHardwareInterface::export_state_interfaces() {
   std::vector<hardware_interface::StateInterface> state_interfaces;
 
   // Expose state interfaces
@@ -116,7 +116,7 @@ IRSSoftrobotHardwareInterface::export_state_interfaces() {
 };
 
 std::vector<hardware_interface::CommandInterface>
-IRSSoftrobotHardwareInterface::export_command_interfaces() {
+RobertoHardwareInterface::export_command_interfaces() {
   std::vector<hardware_interface::CommandInterface> command_interfaces;
 
   // Expose command interfaces
@@ -134,7 +134,7 @@ IRSSoftrobotHardwareInterface::export_command_interfaces() {
   return command_interfaces;
 };
 
-hardware_interface::return_type IRSSoftrobotHardwareInterface::read(
+hardware_interface::return_type RobertoHardwareInterface::read(
     [[maybe_unused]] const rclcpp::Time &time,
     [[maybe_unused]] const rclcpp::Duration &period) {
   // Read motor positions from last_joint_state_
@@ -151,7 +151,7 @@ hardware_interface::return_type IRSSoftrobotHardwareInterface::read(
   return hardware_interface::return_type::OK;
 };
 
-hardware_interface::return_type IRSSoftrobotHardwareInterface::write(
+hardware_interface::return_type RobertoHardwareInterface::write(
     [[maybe_unused]] const rclcpp::Time &time,
     [[maybe_unused]] const rclcpp::Duration &period) {
   // Publish motor positions for each joint
@@ -172,7 +172,7 @@ hardware_interface::return_type IRSSoftrobotHardwareInterface::write(
   return hardware_interface::return_type::OK;
 };
 
-void IRSSoftrobotHardwareInterface::subscriber_callback(
+void RobertoHardwareInterface::subscriber_callback(
     std_msgs::msg::Float64MultiArray msg) {
   // Temorarily save the received message in last_joint_state_
   if (msg.data.size() == 3) {
@@ -182,10 +182,9 @@ void IRSSoftrobotHardwareInterface::subscriber_callback(
   }
 };
 
-} // namespace irs_softrobot_hardware_interface
+} // namespace roberto_hardware_interface
 
 #include "pluginlib/class_list_macros.hpp"
 
-PLUGINLIB_EXPORT_CLASS(
-    irs_softrobot_hardware_interface::IRSSoftrobotHardwareInterface,
-    hardware_interface::SystemInterface)
+PLUGINLIB_EXPORT_CLASS(roberto_hardware_interface::RobertoHardwareInterface,
+                       hardware_interface::SystemInterface)
