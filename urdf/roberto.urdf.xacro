@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="roberto">
+  <xacro:include filename="$(find roberto_description)/urdf/roberto_segment.urdf.xacro" />
+  <xacro:include
+    filename="$(find roberto_hardware_interface)/urdf/roberto_segment_hardware.urdf.xacro" />
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 1.5" />
+      <geometry>
+        <box size="0.2 0.2 1.0" />
+      </geometry>
+      <material name="softrobot_gray">
+        <color rgba=".5 .5 .5 1.0" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="softrobot_1_attachment_point" />
+    <origin xyz="0 0 1" rpy="${pi} 0 ${pi/6}" />
+  </joint>
+
+  <link name="softrobot_1_attachment_point" />
+
+  <!-- <xacro:roberto_segment -->
+  <!--   name="softrobot_1" -->
+  <!--   parent="softrobot_1_attachment_point" -->
+  <!--   num_disks="3" -->
+  <!--   fixed_length="false" -->
+  <!--   length="0.3" -->
+  <!-- /> -->
+  <!-- <xacro:roberto_segment_hardware -->
+  <!--   name="softrobot_1" -->
+  <!--   fixed_length="false" -->
+  <!--   length="0.3" -->
+  <!-- /> -->
+
+  <xacro:roberto_segment
+    name="softrobot_2"
+    parent="softrobot_1_attachment_point"
+    num_disks="3"
+    fixed_length="false"
+    length="0.3"
+  />
+  <xacro:roberto_segment_hardware
+    name="softrobot_2"
+    fixed_length="false"
+    length="0.3"
+  />
+
+  <xacro:roberto_segment
+    name="softrobot_3"
+    parent="softrobot_2/tool_link"
+    num_disks="3"
+    fixed_length="false"
+    length="0.3"
+  />
+  <xacro:roberto_segment_hardware
+    name="softrobot_3"
+    fixed_length="false"
+    length="0.3"
+  />
+
+</robot>

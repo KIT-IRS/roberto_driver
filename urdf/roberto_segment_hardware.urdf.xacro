@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="roberto_segment_hardware"
+    params="
+      name:='roberto'
+      prefix:=''
+      fixed_length:=false
+      length:=0.0
+      curvature:='constant'
+      num_curvature_polynomes:=0
+    ">
+
+    <ros2_control name="${prefix}${name}" type="system">
+      <hardware>
+        <!-- <plugin>roberto_hardware_interface/RobertoHardwareInterface</plugin> -->
+        <plugin>mock_components/GenericSystem</plugin>
+        <param name="simulate_hardware">$(arg simulate_hardware)</param>
+        <param name="fixed_length">${fixed_length}</param>
+        <param name="curvature">${curvature}</param>
+        <xacro:if value="${curvature == 'polynomial'}">
+          <param name="curvature_polynomes">${num_curvature_polynomes}</param>
+        </xacro:if>
+      </hardware>
+
+      <joint name="${prefix}${name}">
+
+        <!-- Declare command interfaces -->
+
+        <xacro:if value="${curvature == 'constant'}">
+          <command_interface name="kappa" />
+        </xacro:if>
+        <xacro:if value="${curvature == 'polynomial'}">
+          <!-- TODO: Add loop -->
+          <command_interface name="kappa/0" />
+        </xacro:if>
+
+        <command_interface name="phi" />
+
+        <xacro:if value="${not fixed_length}">
+          <command_interface name="l" />
+        </xacro:if>
+
+        <!-- Declare state interfaces -->
+
+        <state_interface name="kappa">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="phi">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="l">
+          <param name="initial_value">0.3</param>
+        </state_interface>
+      </joint>
+
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>
+

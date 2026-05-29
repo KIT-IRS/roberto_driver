@@ -47,6 +47,11 @@ install(TARGETS roberto_hardware_interface
     DESTINATION lib/${PROJECT_NAME}
 )
 
+install(
+  DIRECTORY config launch urdf
+  DESTINATION share/${PROJECT_NAME}
+)
+
 # install(FILES plugin_description.xml
 #     DESTINATION share/${PROJECT_NAME})
 

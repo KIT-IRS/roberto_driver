@@ -1,0 +1,60 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100 # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    softjoint_state_broadcaster:
+      type: softjoint_state_broadcaster/SoftjointStateBroadcaster
+
+    # softrobot_1_forward_controller:
+    #   type: forward_command_controller/MultiInterfaceForwardCommandController
+    softrobot_2_forward_controller:
+      type: forward_command_controller/MultiInterfaceForwardCommandController
+    softrobot_3_forward_controller:
+      type: forward_command_controller/MultiInterfaceForwardCommandController
+
+    softjoint_trajectory_controller:
+      type: softjoint_trajectory_controller/SoftjointTrajectoryController
+
+softjoint_state_broadcaster:
+  ros__parameters:
+    joints:
+      # - softrobot_1
+      - softrobot_2
+      - softrobot_3
+    # interfaces:
+    #   - kappa
+    #   - phi
+    #   - l
+
+# softrobot_1_forward_controller:
+#   ros__parameters:
+#     joint: softrobot_1
+#     interface_names:
+#       - kappa
+#       - phi
+#       - l
+
+softrobot_2_forward_controller:
+  ros__parameters:
+    joint: softrobot_2
+    interface_names:
+      - kappa
+      - phi
+      - l
+
+softrobot_3_forward_controller:
+  ros__parameters:
+    joint: softrobot_3
+    interface_names:
+      - kappa
+      - phi
+      - l
+
+softjoint_trajectory_controller:
+  ros__parameters:
+    joints:
+      # - softrobot_1
+      - softrobot_2
+      - softrobot_3
